@@ -56,15 +56,16 @@ The server will run at:
 
 ### 4. Open the App
 
-Open the `index.html` file in your browser.  
-You can double-click it or drag it into the browser window.
+you can view the deployed page at : https://creeksonjoseph.github.io/simple-Blog-app/
+***NOTE THAT***
+The app can not perform accordingly if the json server is not on
 
 ---
 
 ## 🧠 Notes
 
 - Posts are stored locally and reset when the JSON server restarts.
-- Images must be **full URLs** not**image links**but **image address**
+- Images must be **full URLs** not** image links**but **image address**
 
 
 ---
