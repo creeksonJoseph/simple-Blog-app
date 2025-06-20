@@ -12,7 +12,7 @@ function displayPosts() {
     })
     .then((posts) => {
       const postList = document.getElementById("postList");
-      postList.innerHTML = ""; // clear existing list
+      postList.innerHTML = "";
 
       posts.forEach((post) => {
         const li = document.createElement("li");
@@ -23,8 +23,8 @@ function displayPosts() {
           <span class="font-medium text-gray-800">${post.title}</span>
         `;
 
-        // Optional: Add click listener to show full post on center panel
-        li.addEventListener("click", () => displayPostDetails(post));
+        // Add click listener to show full post on center panel
+        li.addEventListener("click", () => handlePostClick(post));
 
         postList.appendChild(li);
       });
@@ -33,7 +33,7 @@ function displayPosts() {
 }
 
 // Show post in center panel
-function displayPostDetails(post) {
+function handlePostClick(post) {
   document.getElementById("detailTitle").textContent = post.title;
   document.getElementById("detailBody").textContent = post.body;
 
@@ -42,3 +42,58 @@ function displayPostDetails(post) {
   img.alt = post.title;
   img.classList.remove("hidden");
 }
+function addNewPostListener() {
+  const toggleBtn = document.getElementById("toggleFormBtn");
+  const postForm = document.getElementById("new-post-form");
+  // Toggle the visibility of the post form
+  toggleBtn.addEventListener("click", () => {
+    if (postForm.classList.contains("hidden")) {
+      postForm.classList.remove("hidden");
+      toggleBtn.textContent = "Hide Form";
+    } else {
+      postForm.classList.add("hidden");
+      toggleBtn.textContent = "Add New Post";
+    }
+  });
+
+  // Handle form submission
+  postForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value;
+    const body = document.getElementById("body").value;
+    const image = document.getElementById("image").value;
+
+    if (!title || !body || !image) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // Create new post object
+    const newPost = {
+      title,
+      body,
+      image,
+    };
+
+    // Send POST request to server
+    fetch("http://localhost:3000/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPost),
+    })
+      .then((res) => res.json())
+      .then((post) => {
+        console.log("Post created:", post);
+        displayPosts();
+        postForm.reset();
+        toggleBtn.textContent = "Add New Post";
+        postForm.classList.add("hidden");
+      })
+      .catch((err) => console.error("Error creating post:", err));
+  });
+}
+
+addNewPostListener();
