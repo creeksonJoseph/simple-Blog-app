@@ -1,5 +1,8 @@
-// When the page loads, run displayPosts
-window.addEventListener("DOMContentLoaded", displayPosts);
+function main() {
+  // When the page loads, run displayPosts
+  window.addEventListener("DOMContentLoaded", displayPosts);
+  addNewPostListener();
+}
 
 // Fetch and display all blog posts
 function displayPosts() {
@@ -96,4 +99,4 @@ function addNewPostListener() {
   });
 }
 
-addNewPostListener();
+main();
